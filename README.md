@@ -255,3 +255,7 @@ Motor speed is limited to the Arduino PWM range:
 ```text
 0–255
 ```
+
+# Hobby Project
+
+# Free for Educational Purpose
