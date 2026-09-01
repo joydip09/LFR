@@ -11,9 +11,10 @@ void line_follow() {
 
     if (sum == 0) { // out of line
       if (flag != 's') {
-        delay(0);
-        // motor(-tsp, -tsp);  //immediately stop
-        // delay(100);
+        // (flag == 'r') ? motor(10 * lsp, -10 * rsp)
+        //               : motor(-10 * lsp,
+        //                       10 * rsp); // turn using the configurable
+        //                       left/right speed factors
         (flag == 'r') ? motor(tsp, -tsp) : motor(-tsp, tsp);
         while (s[2] == 0 && s[3] == 0)
           reading();
@@ -25,7 +26,9 @@ void line_follow() {
       if (sensor == 0b001100) {
         if (pos != 0) {
           (pos > 0) ? motor(-10 * lsp, 10 * rsp) : motor(10 * lsp, -10 * rsp);
-          delay(abs(pos) * 5); // tune
+          (pos > 0) ? delay(pos * 5) : delay(-pos * 5);
+          pos = 0; // briefly correct back to center after high-speed wobble
+                   // keep the delay below 30 ms
         }
         motor(10 * lsp, 10 * rsp);
       }
@@ -75,13 +78,13 @@ void line_follow() {
       }
     }
 
-    else if (sum >= 3 && sum <= 5) { // turn of path
-      // sharp turn detection
-
+    else if (sum >= 3 && sum <= 5) { // sharp turn detection
       if ((s[2] + s[3]) && s[0] == 1 && s[5] == 0)
         flag = 'r';
       if ((s[2] + s[3]) && s[0] == 0 && s[5] == 1)
         flag = 'l';
+
+      m1 = millis();
     }
 
     else if (sum == 6) { // T or + intersection or black box
@@ -95,5 +98,8 @@ void line_follow() {
       } else if (sum == 0)
         flag = 'r'; // detection of T-selection
     }
+    m2 = millis();
+    if (m2 - m1 > 500)
+      flag = 's'; // cancel the sharp-turn recovery direction after 500 ms
   }
 }
