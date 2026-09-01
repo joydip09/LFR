@@ -19,6 +19,21 @@ void line_follow() {
         while (s[2] == 0 && s[3] == 0)
           reading();
         flag = 's';
+      } else {
+        delay(line_end_delay);
+        reading();
+
+        if (sum == 0) {
+          motor(tsp, -tsp);
+          uint32_t uturn_start = millis();
+          while (sum == 0) {
+            reading();
+
+            if (millis() - uturn_start >= uturn_timeout)
+              break;
+          }
+          motor(0, 0);
+        }
       }
     }
 
