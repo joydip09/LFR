@@ -32,9 +32,9 @@ void bluetooth() {
       else if (x == 'S')
         motor(0, 0);
       else if (x == 'U')
-        digitalWrite(light, HIGH);
+        digitalWrite(red, HIGH);
       else if (x == 'u')
-        digitalWrite(light, LOW);
+        digitalWrite(red, LOW);
       else if (x == '0')
         s = 0;
       else if (x == '1')

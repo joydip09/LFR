@@ -17,6 +17,11 @@ void setup() {
   pinMode(right_motor_backward, OUTPUT);
   pinMode(right_motor_speed, OUTPUT);
 
+  pinMode(button, INPUT_PULLUP);
+  pinMode(red, OUTPUT);
+  pinMode(green, OUTPUT);
+  pinMode(blue, OUTPUT);
+
   for (int i = 0; i < 6; i++) {
     mid[i] = EEPROM.read(i) * 4;
     maximum[i] = EEPROM.read(i + 6) * 4;
@@ -28,10 +33,23 @@ void setup() {
 
 void loop() {
   int r = button_read();
-  if (r == 1)
-    line_follow();
-  else if (r == 2)
-    cal();
-  else if (r == 3)
-    bluetooth();
+  if (r == 1) {
+    digitalWrite(green, LOW);
+    digitalWrite(blue, LOW);
+    digitalWrite(red, HIGH);
+
+    line_follow(); // mode-1
+  } else if (r == 2) {
+    digitalWrite(red, LOW);
+    digitalWrite(blue, LOW);
+    digitalWrite(green, HIGH);
+
+    cal(); // mode-2
+  } else if (r == 3) {
+    digitalWrite(red, LOW);
+    digitalWrite(green, LOW);
+    digitalWrite(blue, HIGH);
+
+    bluetooth(); // mode-3
+  }
 }

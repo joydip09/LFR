@@ -28,6 +28,49 @@ LFR/
 └── platformio.ini
 ```
 
+## Mode Selection
+
+The robot uses the push button connected to `button` as the mode selector. The mode is detected in `src/main.cpp` by reading the value returned from `button_read()` in `src/button.cpp`.
+
+### How switching works
+
+- `button_read()` waits for a button press, counts a valid press after the button has been held for more than 15 ms, and returns the press count.
+- The `loop()` function checks that count and selects one of the three operating modes.
+- Each mode is indicated by a different LED color:
+  - Red LED = Mode 1
+  - Green LED = Mode 2
+  - Blue LED = Mode 3
+
+### Mode 1: Line Following
+
+- Trigger: button press count = `1`
+- LED: red
+- Purpose: autonomous line tracking on a black line.
+- Use when: the robot is on the track and should follow the path by itself.
+
+### Mode 2: Calibration
+
+- Trigger: button press count = `2`
+- LED: green
+- Purpose: calibrates the six IR sensors and stores the mid, minimum, and maximum values in EEPROM.
+- Use when: the environment lighting changes, the sensor readings are inaccurate, or you need to tune the line-detection thresholds before running the robot.
+
+### Mode 3: Bluetooth Control
+
+- Trigger: button press count = `3`
+- LED: blue
+- Purpose: manual remote control through the serial Bluetooth interface.
+- Use when: you want to drive the robot manually with commands such as `F`, `B`, `L`, `R`, `S`, and speed values.
+
+### Switching between modes
+
+1. Press the mode button once to select Mode 1 (line follow).
+2. Press it again to select Mode 2 (calibration).
+3. Press it a third time to select Mode 3 (Bluetooth control).
+4. The selected mode runs in its own infinite loop until the robot is reset or power is cycled.
+
+This button-based selection is intended for setup and mode changes before the robot starts its main behavior.
+
 ## Pin Configuration
 
 | Function             | Arduino Pin |

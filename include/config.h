@@ -3,9 +3,12 @@
 #include <Arduino.h>
 
 int s[6];
-int mid[6], maximum[6], minimum[6];
+int threshold = 300; // tune this value for sensor sensitivity or use
+                     // calibration mode to set it automatically
+int mid[6] = {threshold, threshold, threshold, threshold, threshold, threshold};
 
-int threshold = 300;                 // tune this value for sensor sensitivity
+int maximum[6], minimum[6];
+
 long base[6] = {1, 2, 4, 8, 16, 32}; // this is for binary to decimal conversion
 // long base[6] = {1, 10, 100, 1000, 10000, 100000};
 long sensor; // this is to store final value after binary conversion

@@ -8,5 +8,7 @@
 #define right_motor_forward 4
 #define right_motor_backward 5
 #define right_motor_speed 3
-#define light 12
-#define sw 13
+#define button 13
+#define red 12
+#define green 11
+#define blue 10
