@@ -5,7 +5,7 @@
 #include "sensor.h"
 #include <Arduino.h>
 
-void lineFollow() {
+void line_follow() {
   while (1) {
     reading();
 

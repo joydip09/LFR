@@ -1,34 +1,37 @@
+#include "bluetooth.h"
+#include "button.h"
 #include "config.h"
 #include "line_follow.h"
 #include "motor.h"
 #include "pins.h"
 #include "sensor.h"
 #include <Arduino.h>
+#include <EEPROM.h>
 
 void setup() {
   Serial.begin(9600);
   pinMode(left_motor_forward, OUTPUT);
   pinMode(left_motor_backward, OUTPUT);
+  pinMode(left_motor_speed, OUTPUT);
   pinMode(right_motor_forward, OUTPUT);
   pinMode(right_motor_backward, OUTPUT);
+  pinMode(right_motor_speed, OUTPUT);
 
-  // motor(150,150);
+  for (int i = 0; i < 6; i++) {
+    mid[i] = EEPROM.read(i) * 4;
+    maximum[i] = EEPROM.read(i + 6) * 4;
+    minimum[i] = EEPROM.read(i + 12) * 4;
+    Serial.println(String(maximum[i]) + " " + String(mid[i]) + " " +
+                   String(minimum[i]));
+  }
 }
 
 void loop() {
-  reading();
-  lineFollow();
-  // for (byte i = 0; i<6 ; i++) {
-  //   Serial.print(s[i]);
-  //   Serial.print(" ");
-  // }
-  // Serial.println();
-  // delay(200);
-
-  // if (s[0] == 0 && s[1] == 0 && s[2] == 1 && s[3] == 1 && s[4] == 0 && s[5]
-  // ==0) motor(120, 120); else { motor(0,0);}
-
-  // if (sensor == 0b001100) motor(lsp, rsp); //12
-  // else if (sensor == 0b001000) motor(200, 250); //8
-  // else if (sensor == 0b100000) motor(0, 250); //32
+  int r = button_read();
+  if (r == 1)
+    line_follow();
+  else if (r == 2)
+    cal();
+  else if (r == 3)
+    bluetooth();
 }

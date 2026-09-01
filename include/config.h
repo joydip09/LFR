@@ -1,5 +1,11 @@
+#pragma once
+
+#include <Arduino.h>
+
 int s[6];
 int mid[6], maximum[6], minimum[6];
+uint32_t m1, m2;
+
 int threshold = 300;                 // tune this value for sensor sensitivity
 long base[6] = {1, 2, 4, 8, 16, 32}; // this is for binary to decimal conversion
 // long base[6] = {1, 10, 100, 1000, 10000, 100000};
@@ -11,5 +17,5 @@ int pos;
 int flag = 's';      // s = straight, l = left, r = right
 int tsp = 100;       // turn speed
 int node_delay = 30; // tune this value for node delay
-// int breakeDelay = 20;
-// int reverseForceDelay = 20;
+                     // int breakeDelay = 20;
+                     // int reverseForceDelay = 20;

@@ -1,13 +1,14 @@
 #include "motor.h"
+#include "config.h"
 #include "pins.h"
 #include <Arduino.h>
 
-void motor(float a, float b) {
+void motor(int a, int b) {
   if (a > 0) {
     digitalWrite(left_motor_forward, 1);
     digitalWrite(left_motor_backward, 0);
   } else {
-    a = -(a);
+    a = -a;
     digitalWrite(left_motor_forward, 0);
     digitalWrite(left_motor_backward, 1);
   }
@@ -16,7 +17,7 @@ void motor(float a, float b) {
     digitalWrite(right_motor_forward, 1);
     digitalWrite(right_motor_backward, 0);
   } else {
-    b = -(b);
+    b = -b;
     digitalWrite(right_motor_forward, 0);
     digitalWrite(right_motor_backward, 1);
   }

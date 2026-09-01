@@ -1,6 +1,7 @@
 #pragma once
 
-#include "pins.h"
-#include <Arduino.h>
+#include "config.h"
 
+void show_the_value();
+void cal();
 void reading();

@@ -2,4 +2,4 @@
 
 #include "config.h"
 
-void motor(float a, float b);
+void motor(int a, int b);

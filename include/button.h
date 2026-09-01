@@ -2,4 +2,4 @@
 
 #include "config.h"
 
-void line_follow();
+int button_read();

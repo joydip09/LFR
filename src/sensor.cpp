@@ -1,6 +1,7 @@
 #include "sensor.h"
 #include "config.h"
 #include "motor.h"
+#include "pins.h"
 #include <Arduino.h>
 #include <EEPROM.h>
 
