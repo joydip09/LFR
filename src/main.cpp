@@ -22,12 +22,14 @@ void setup() {
   pinMode(green, OUTPUT);
   pinMode(blue, OUTPUT);
 
-  for (int i = 0; i < 6; i++) {
-    mid[i] = EEPROM.read(i) * 4;
-    maximum[i] = EEPROM.read(i + 6) * 4;
-    minimum[i] = EEPROM.read(i + 12) * 4;
-    Serial.println(String(maximum[i]) + " " + String(mid[i]) + " " +
-                   String(minimum[i]));
+  if (EEPROM.read(20) == 0xA5) { // check if EEPROM is already calibrated
+    for (int i = 0; i < 6; i++) {
+      mid[i] = EEPROM.read(i) * 4;
+      maximum[i] = EEPROM.read(i + 6) * 4;
+      minimum[i] = EEPROM.read(i + 12) * 4;
+      Serial.println(String(maximum[i]) + " " + String(mid[i]) + " " +
+                     String(minimum[i]));
+    }
   }
 }
 
@@ -52,4 +54,18 @@ void loop() {
 
     bluetooth(); // mode-3
   }
+
+  /*
+  else if (r == 4)
+    motor(10 * lsp, 10 * rsp); // to test out if the robot is moving perfectly
+                               // straight forward
+  else if (r == 5)
+    analog_reading(); // first connect robot with pc and open serial monitor in
+                      // arduino. and then press the button accordingly to see
+                      // analog reading of all sensors
+  else if (r == 6)
+    digital_reading(); // first connect robot with pc and open serial monitor in
+                       // arduino. and then press the button accordingly to see
+                       // digital reading of all sensors
+  */
 }

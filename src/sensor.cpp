@@ -35,6 +35,7 @@ void cal() {
     EEPROM.write(i + 12, minimum[i] / 4);
     delay(10);
   }
+  EEPROM.write(20, 0xA5);
 }
 
 void reading() {
@@ -53,5 +54,24 @@ void reading() {
                  // binary number. then i converted it into decimal number to
                  // use as final value. better search about base convertion
     sum += s[i]; // finds out total count of sensor
+  }
+}
+
+void analog_reading() {
+  while (1) {
+    for (int i = 0; i < 6; i++) {
+      s[i] = analogRead(i);
+      Serial.print(String(s[i]) + " ");
+    }
+    Serial.println();
+  }
+}
+
+void digital_reading() {
+  while (1) {
+    reading();
+    for (int i = 5; i >= 0; i--)
+      Serial.print(String(s[i]) + " ");
+    Serial.println(sensor);
   }
 }
