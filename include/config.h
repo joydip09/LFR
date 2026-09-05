@@ -22,5 +22,6 @@ int tsp = 100;           // turn speed
 int node_delay = 30;     // tune this value for node delay
 int line_end_delay = 30; // tune this value for line end delay
 
-uint32_t m1, m2;
+uint32_t m1, m2, m3;
 uint16_t uturn_timeout = 1500;
+uint16_t stop_timer = 1500;

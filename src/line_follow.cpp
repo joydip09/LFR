@@ -7,6 +7,7 @@
 
 void line_follow() {
   while (1) {
+  a:
     reading();
 
     if (sum == 0) { // out of line
@@ -19,6 +20,7 @@ void line_follow() {
         while (s[2] == 0 && s[3] == 0)
           reading();
         flag = 's';
+        pos = 0;
       } else {
         delay(line_end_delay);
         reading();
@@ -94,15 +96,44 @@ void line_follow() {
     }
 
     else if (sum >= 3 && sum <= 5) { // sharp turn detection
-      if ((s[2] + s[3]) && s[0] == 1 && s[5] == 0)
+      if ((s[2] + s[3]) && s[0] == 1 && s[5] == 0) {
         flag = 'r';
-      if ((s[2] + s[3]) && s[0] == 0 && s[5] == 1)
+        while (s[5] == 0 && s[0] == 1)
+          reading();
+
+        if (s[5] == 0) {
+          delay(node_delay);
+          reading();
+        }
+      }
+
+      else if ((s[2] + s[3]) && s[0] == 0 && s[5] == 1) {
         flag = 'l';
+        while (s[5] == 1 && s[0] == 0)
+          reading();
+
+        if (s[0] == 0) {
+          delay(node_delay);
+          reading();
+        }
+      }
 
       m1 = millis();
     }
 
     else if (sum == 6) { // T or + intersection or black box
+
+      m3 = millis();
+      while (s[5] == 1 || s[0] == 1) {
+        reading();
+
+        if (millis() - m3 > stop_timer) {
+          motor(0, 0);
+          while (sum == 6)
+            reading(); // breaks stop phase
+          goto a;
+        }
+      }
 
       delay(node_delay); // tune this value
       reading();
@@ -113,6 +144,7 @@ void line_follow() {
       } else if (sum == 0)
         flag = 'r'; // detection of T-selection
     }
+
     m2 = millis();
     if (m2 - m1 > 500)
       flag = 's'; // cancel the sharp-turn recovery direction after 500 ms
